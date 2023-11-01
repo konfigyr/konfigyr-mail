@@ -7,8 +7,8 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.context.IContext;
 
 /**
- * Implementation of the {@link TemplateEngine} that uses the Thymeleaf {@link ITemplateEngine}
- * to retrieve and process mail templates.
+ * Implementation of the {@link TemplateEngine} that uses the Thymeleaf
+ * {@link ITemplateEngine} to retrieve and process mail templates.
  *
  * @see ITemplateEngine
  * @author : Vladimir Spasic
