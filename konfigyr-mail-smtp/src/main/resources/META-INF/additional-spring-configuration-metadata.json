@@ -1,0 +1,18 @@
+{
+  "groups": [
+  ],
+  "properties": [
+    {
+      "name": "spring.mail.sender.email",
+      "type": "java.lang.String",
+      "description": "Default SMTP sender email address.",
+      "sourceType": "org.springframework.boot.autoconfigure.mail.MailProperties"
+    },
+    {
+      "name": "spring.mail.sender.name",
+      "type": "java.lang.String",
+      "description": "Default SMTP sender user-friendly display name. Can be left blank.",
+      "sourceType": "org.springframework.boot.autoconfigure.mail.MailProperties"
+    }
+  ]
+}

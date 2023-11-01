@@ -1,0 +1,4 @@
+rootProject.name = 'konfigyr-mail'
+include 'konfigyr-mail-api'
+include 'konfigyr-mail-smtp'
+include 'konfigyr-mail-thymeleaf'
