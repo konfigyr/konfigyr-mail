@@ -1,0 +1,5 @@
+description = "Konfigyr Mail Spring core API"
+
+dependencies {
+    compileOnly("org.springframework.boot:spring-boot-starter")
+}

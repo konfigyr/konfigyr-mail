@@ -1,7 +1,7 @@
 package com.konfigyr.mail;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,7 +16,8 @@ import java.io.Serializable;
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
-public record Recipient(@NonNull Address address, @NonNull Type type) implements Serializable {
+@NullMarked
+public record Recipient(Address address, Type type) implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 5377193327396172878L;
@@ -27,7 +28,6 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @return recipient with just an email address
 	 * @throws IllegalArgumentException when email is blank
 	 */
-	@NonNull
 	public static Recipient to(String email) {
 		return to(email, null);
 	}
@@ -40,7 +40,6 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @return recipient with an email address and display name
 	 * @throws IllegalArgumentException when email is blank
 	 */
-	@NonNull
 	public static Recipient to(String email, @Nullable String name) {
 		return to(new Address(email, name));
 	}
@@ -50,8 +49,7 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @param address address of the recipient, can't be {@literal null}
 	 * @return recipient with an address
 	 */
-	@NonNull
-	public static Recipient to(@NonNull Address address) {
+	public static Recipient to(Address address) {
 		return new Recipient(address, Type.TO);
 	}
 
@@ -61,7 +59,6 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @return recipient with just an email address
 	 * @throws IllegalArgumentException when email is blank
 	 */
-	@NonNull
 	public static Recipient cc(String email) {
 		return cc(email, null);
 	}
@@ -83,8 +80,7 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @param address address of the recipient, can't be {@literal null}
 	 * @return recipient with an address
 	 */
-	@NonNull
-	public static Recipient cc(@NonNull Address address) {
+	public static Recipient cc(Address address) {
 		return new Recipient(address, Type.CC);
 	}
 
@@ -94,7 +90,6 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @return recipient with just an email address
 	 * @throws IllegalArgumentException when email is blank
 	 */
-	@NonNull
 	public static Recipient bcc(String email) {
 		return bcc(email, null);
 	}
@@ -116,8 +111,7 @@ public record Recipient(@NonNull Address address, @NonNull Type type) implements
 	 * @param address address of the recipient, can't be {@literal null}
 	 * @return recipient with an address
 	 */
-	@NonNull
-	public static Recipient bcc(@NonNull Address address) {
+	public static Recipient bcc(Address address) {
 		return new Recipient(address, Type.BCC);
 	}
 

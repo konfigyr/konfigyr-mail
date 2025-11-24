@@ -1,6 +1,6 @@
 package com.konfigyr.mail;
 
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import java.io.IOException;
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
+@NullMarked
 public interface TemplateEngine {
 
 	/**
@@ -21,7 +22,6 @@ public interface TemplateEngine {
 	 * @return rendered mail template
 	 * @throws IOException when there is an error during the rendering process.
 	 */
-	@NonNull
-	Template render(@NonNull Mail mail) throws IOException;
+	Template render(Mail mail) throws IOException;
 
 }

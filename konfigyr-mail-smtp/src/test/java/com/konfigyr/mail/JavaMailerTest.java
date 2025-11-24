@@ -10,10 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.MailPreparationException;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.util.MimeType;
 
 import java.io.IOException;
@@ -42,7 +42,7 @@ class JavaMailerTest {
 		registry.add("spring.messages.basename", () -> "messages/mail");
 	}
 
-	@MockBean
+	@MockitoBean
 	TemplateEngine engine;
 
 	@Autowired
@@ -175,7 +175,7 @@ class JavaMailerTest {
 
 		assertThatException().isThrownBy(() -> mailer.send(mail))
 			.isInstanceOf(MailPreparationException.class)
-			.withMessageContaining(FailureReason.DISALLOWED_UNQUOTED_CHARACTER.name())
+			.withMessageContaining(FailureReason.DISALLOWED_UNQUOTED_CHARACTER.toString())
 			.withNoCause();
 
 		verifyNoInteractions(engine);

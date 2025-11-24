@@ -6,7 +6,7 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 import org.springframework.core.Ordered;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.Order;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,13 +20,13 @@ import java.util.Objects;
  * @since : 31.10.23, Tue
  **/
 @Order(Ordered.HIGHEST_PRECEDENCE)
-class MailingFailureAnalyzer extends AbstractFailureAnalyzer<NoSuchBeanDefinitionException> {
+class MailingFailureAnalyzer extends AbstractFailureAnalyzer<@NonNull NoSuchBeanDefinitionException> {
 
 	static List<String> MAILER_IMPLEMENTATIONS = List.of("konfigyr-mail-smtp");
 	static List<String> TEMPLATE_IMPLEMENTATIONS = List.of("konfigyr-mail-thymeleaf");
 
 	@Override
-	protected FailureAnalysis analyze(Throwable root, NoSuchBeanDefinitionException cause) {
+	protected FailureAnalysis analyze(@NonNull Throwable root, NoSuchBeanDefinitionException cause) {
 		final ResolvableType type = cause.getResolvableType();
 
 		if (type == null) {

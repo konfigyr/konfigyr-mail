@@ -1,8 +1,10 @@
 package com.konfigyr.mail;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.NonNull;
 import org.springframework.util.Assert;
 
 import java.io.Serial;
@@ -35,9 +37,9 @@ import java.util.*;
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
-public record Mail(@NonNull Subject subject, @NonNull String template, @NonNull Map<String, Object> attributes,
-		@NonNull Set<Recipient> recipients, @Nullable Address from, @NonNull Set<Address> replyTo,
-		@NonNull Charset encoding, @NonNull Locale locale) implements Serializable {
+@NullMarked
+public record Mail(Subject subject, String template, Map<String, Object> attributes, Set<Recipient> recipients,
+		@Nullable Address from, Set<Address> replyTo, Charset encoding, Locale locale) implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = -2629706208245513082L;
@@ -47,11 +49,11 @@ public record Mail(@NonNull Subject subject, @NonNull String template, @NonNull 
 	 * {@link Mail} instances.
 	 * @return mail builder
 	 */
-	@NonNull
 	public static Builder builder() {
 		return new Builder();
 	}
 
+	@NullUnmarked
 	public static final class Builder {
 
 		private Subject subject;

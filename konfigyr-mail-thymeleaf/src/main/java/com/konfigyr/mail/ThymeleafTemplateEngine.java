@@ -1,7 +1,7 @@
 package com.konfigyr.mail;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.context.IContext;

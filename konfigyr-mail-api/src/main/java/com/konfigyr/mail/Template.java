@@ -1,6 +1,6 @@
 package com.konfigyr.mail;
 
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.util.Assert;
 import org.springframework.util.MimeType;
 
@@ -12,7 +12,8 @@ import org.springframework.util.MimeType;
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
-public record Template(@NonNull String contents, @NonNull MimeType contentType) {
+@NullMarked
+public record Template(String contents, MimeType contentType) {
 
 	/**
 	 * HTML content type (text/html).

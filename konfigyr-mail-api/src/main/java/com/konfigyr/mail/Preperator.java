@@ -1,6 +1,7 @@
 package com.konfigyr.mail;
 
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -13,6 +14,7 @@ import java.util.stream.StreamSupport;
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
+@NullMarked
 @FunctionalInterface
 public interface Preperator<T> {
 
@@ -25,8 +27,7 @@ public interface Preperator<T> {
 	 * @return the prepared target, never {@literal null}
 	 * @throws Exception when there is an error during preparation
 	 */
-	@NonNull
-	T prepare(@NonNull Mail mail, @NonNull T target) throws Exception;
+	T prepare(Mail mail, T target) throws Exception;
 
 	/**
 	 * Returns a composed {@link Preperator} that first applies this {@link Preperator}
@@ -37,7 +38,7 @@ public interface Preperator<T> {
 	 * @param next the preperator to apply after this one
 	 * @return a composed {@link Preperator}
 	 */
-	default Preperator<T> and(@NonNull Preperator<T> next) {
+	default Preperator<T> and(Preperator<T> next) {
 		return (Mail mail, T t) -> next.prepare(mail, prepare(mail, t));
 	}
 
@@ -57,7 +58,7 @@ public interface Preperator<T> {
 	 * @param preperators preparators to be reduced
 	 * @return single chained {@link Preperator} instance.
 	 */
-	static <T> Preperator<T> aggregate(Iterable<Preperator<T>> preperators) {
+	static <T> Preperator<T> aggregate(@Nullable Iterable<Preperator<T>> preperators) {
 		if (preperators == null) {
 			return Preperator.noop();
 		}
@@ -72,7 +73,7 @@ public interface Preperator<T> {
 	 * @param preperators preparators to be reduced
 	 * @return single chained {@link Preperator} instance.
 	 */
-	static <T> Preperator<T> aggregate(Stream<Preperator<T>> preperators) {
+	static <T> Preperator<T> aggregate(@Nullable Stream<Preperator<T>> preperators) {
 		if (preperators == null) {
 			return Preperator.noop();
 		}
