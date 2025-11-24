@@ -7,7 +7,7 @@ import jakarta.mail.internet.InternetAddress;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,10 +27,10 @@ class JavaMailer implements Mailer {
 
 	private final JavaMailSender sender;
 
-	private final Preperator<MimeMessageHelper> preperator;
+	private final Preperator<@NonNull MimeMessageHelper> preperator;
 
 	JavaMailer(JavaMailSender sender, MessageSource messageSource, TemplateEngine templateEngine,
-			Iterable<Preperator<MimeMessageHelper>> additionalPreparators) {
+			Iterable<Preperator<@NonNull MimeMessageHelper>> additionalPreparators) {
 		this.sender = sender;
 
 		// create the MIME message preperator with following steps:
@@ -66,7 +66,7 @@ class JavaMailer implements Mailer {
 		});
 	}
 
-	static Preperator<MimeMessageHelper> addresses() {
+	static Preperator<@NonNull MimeMessageHelper> addresses() {
 		return (mail, helper) -> {
 			for (var recipient : mail.recipients()) {
 				if (Recipient.Type.TO == recipient.type()) {
@@ -92,7 +92,7 @@ class JavaMailer implements Mailer {
 		};
 	};
 
-	static Preperator<MimeMessageHelper> subject(MessageSource messageSource) {
+	static Preperator<@NonNull MimeMessageHelper> subject(MessageSource messageSource) {
 		Assert.notNull(messageSource, "Mail Message Source can not be null");
 
 		return (mail, helper) -> {
@@ -118,7 +118,7 @@ class JavaMailer implements Mailer {
 		};
 	}
 
-	static Preperator<MimeMessageHelper> template(TemplateEngine engine) {
+	static Preperator<@NonNull MimeMessageHelper> template(TemplateEngine engine) {
 		Assert.notNull(engine, "Template engine can not be null");
 
 		return (mail, helper) -> {
@@ -145,13 +145,13 @@ class JavaMailer implements Mailer {
 		};
 	}
 
-	static Preperator<MimeMessageHelper> sender(String email, String name) {
+	static Preperator<@NonNull MimeMessageHelper> sender(String email, String name) {
 		Assert.hasText(email, "Default mail sender email address can not be null");
 
 		return sender(new Address(email, name));
 	}
 
-	static Preperator<MimeMessageHelper> sender(Address defaultSender) {
+	static Preperator<@NonNull MimeMessageHelper> sender(Address defaultSender) {
 		Assert.notNull(defaultSender, "Default mail sender address can not be null");
 
 		return (mail, helper) -> {

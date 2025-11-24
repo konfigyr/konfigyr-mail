@@ -1,12 +1,13 @@
 package com.konfigyr.mail;
 
+import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
+import org.springframework.boot.mail.autoconfigure.MailSenderAutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -20,6 +21,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
+@NullMarked
 @AutoConfiguration
 @ConditionalOnBean(JavaMailSender.class)
 @ConditionalOnMissingBean(Mailer.class)

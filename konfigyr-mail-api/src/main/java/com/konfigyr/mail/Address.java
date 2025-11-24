@@ -1,7 +1,7 @@
 package com.konfigyr.mail;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.springframework.util.Assert;
 
 import java.io.Serial;
@@ -10,12 +10,13 @@ import java.io.Serializable;
 /**
  * An immutable address object, with an email address and a display name.
  *
- * @param email email address, can not be {@literal blank}
+ * @param email email address, can't be {@literal blank}
  * @param name display name, can be {@literal null}
  * @author : Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
-public record Address(@NonNull String email, @Nullable String name) implements Serializable {
+@NullMarked
+public record Address(String email, @Nullable String name) implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 722890289582271673L;
