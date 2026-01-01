@@ -7,5 +7,5 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter-mail")
 
     testImplementation("org.springframework.boot:spring-boot-starter-mail")
-    testImplementation("com.icegreen:greenmail:2.1.7")
+    testImplementation("com.icegreen:greenmail:2.1.8")
 }
