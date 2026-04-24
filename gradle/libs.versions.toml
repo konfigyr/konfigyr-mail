@@ -1,0 +1,19 @@
+[versions]
+spring-boot = "4.0.6"
+
+[libraries]
+spring-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+spring-processor-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure-processor", version.ref = "spring-boot" }
+spring-processor-configuration = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
+spring-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
+spring-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "spring-boot" }
+spring-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "spring-boot" }
+spring-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf", version.ref = "spring-boot" }
+spring-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
+
+jmail = { module = "com.sanctionco.jmail:jmail", version = "2.1.0" }
+greenmail = { module = "com.icegreen:greenmail", version = "2.1.8" }
+thymeleaf = { module = "org.thymeleaf:thymeleaf-spring6" }
+
+[plugins]
+lombok = { id = "io.freefair.lombok", version = "9.4.0" }
