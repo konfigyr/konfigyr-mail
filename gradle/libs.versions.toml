@@ -16,4 +16,4 @@ greenmail = { module = "com.icegreen:greenmail", version = "2.1.8" }
 thymeleaf = { module = "org.thymeleaf:thymeleaf-spring6" }
 
 [plugins]
-lombok = { id = "io.freefair.lombok", version = "9.4.0" }
+lombok = { id = "io.freefair.lombok", version = "9.5.0" }
