@@ -12,18 +12,22 @@ apply(plugin = "com.konfigyr.sonatype")
 allprojects {
 	group = "com.konfigyr"
 	version = "1.0.0"
-}
-
-subprojects {
-    apply(plugin = "checkstyle")
-    apply(plugin = "java-library")
-    apply(plugin = "io.freefair.lombok")
-    apply(plugin = "com.konfigyr.deploy")
 
     repositories {
         mavenCentral()
         mavenLocal()
     }
+}
+
+subprojects {
+    if (name == "konfigyr-mail-dependencies") {
+        return@subprojects
+    }
+
+    apply(plugin = "checkstyle")
+    apply(plugin = "java-library")
+    apply(plugin = "io.freefair.lombok")
+    apply(plugin = "com.konfigyr.deploy")
 
     java {
         withJavadocJar()

@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://www.schemastore.org/codecov.json
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  status:
+    # 1. Global Project Coverage
+    project:
+      default:
+        target: auto       # Compares against the base branch coverage
+        threshold: 2.0%    # Leniency: Allow a maximum 2% drop globally before failing the check
+        base: auto
+
+    # 2. Patch Coverage (Enforces quality rules only on lines changed in the PR)
+    patch:
+      default:
+        target: 80%        # Changed/new lines must have at least 80% coverage
+        threshold: 0%      # No drops allowed on new code lines
+
+# 3. Component Management for Multi-Module isolation
+component_management:
+  default_rules:
+    statuses:
+      - type: project
+        target: auto
+        threshold: 2.0%    # Slightly higher leniency for individual submodules
+
+  individual_components:
+    - component_id: konfigyr-mail-api
+      name: "Konfigyr Mail API"
+      paths:
+        - "konfigyr-mail-api/src/main/java/**"
+
+    - component_id: konfigyr-mail-smtp
+      name: "Konfigyr Mail SMTP"
+      paths:
+        - "konfigyr-mail-smtp/src/main/java/**"
+
+    - component_id: konfigyr-mail-thymeleaf
+      name: "Konfigyr Mail Thymeleaf"
+      paths:
+        - "konfigyr-mail-thymeleaf/src/main/java/**"
+
+comment:
+  layout: "header, diff, flags, components, footer"
+  behavior: default
+  require_changes: false
