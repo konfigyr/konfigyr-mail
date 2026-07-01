@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThatException;
 class MailingFailureAnalyzerTest {
 
 	@Test
-	@DisplayName("should perform analysis when mailer bean is not defined")
-	void analysisIsPerformedForMailerBean(CapturedOutput output) {
-		analyze(TestConfiguration.class, MissingMailerConfiguration.class)
+	@DisplayName("should perform analysis when transport bean is not defined")
+	void analysisIsPerformedForTransportBean(CapturedOutput output) {
+		analyze(TestConfiguration.class, MissingTransportConfiguration.class)
 			.isInstanceOf(UnsatisfiedDependencyException.class);
 
 		assertThat(output).contains("APPLICATION FAILED TO START")
 			.contains("It seems you attempted to use the Konfigyr Mail library")
-			.contains(Mailer.class.getTypeName())
+			.contains(Transport.class.getTypeName())
 			.contains("konfigyr-mail-smtp");
 	}
 
@@ -65,9 +65,9 @@ class MailingFailureAnalyzerTest {
 	}
 
 	@Configuration(proxyBeanMethods = false)
-	static class MissingMailerConfiguration {
+	static class MissingTransportConfiguration {
 
-		MissingMailerConfiguration(Mailer mailer) {
+		MissingTransportConfiguration(Transport transport) {
 		}
 
 	}

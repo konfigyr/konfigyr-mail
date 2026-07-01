@@ -1,1 +1,1 @@
-com.konfigyr.mail.JavaMailerAutoConfiguration
+com.konfigyr.mail.JavaMailSenderTransportAutoConfiguration

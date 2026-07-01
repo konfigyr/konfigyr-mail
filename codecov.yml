@@ -36,6 +36,11 @@ component_management:
       paths:
         - "konfigyr-mail-smtp/src/main/java/**"
 
+    - component_id: konfigyr-mail-test
+      name: "Konfigyr Mail Test"
+      paths:
+        - "konfigyr-mail-test/src/main/java/**"
+
     - component_id: konfigyr-mail-thymeleaf
       name: "Konfigyr Mail Thymeleaf"
       paths:

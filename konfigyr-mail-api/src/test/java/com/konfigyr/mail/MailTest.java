@@ -1,6 +1,6 @@
 package com.konfigyr.mail;
 
-import org.assertj.core.api.InstanceOfAssertFactories;
+import com.konfigyr.mail.test.MailAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.MessageSourceResolvable;
@@ -30,27 +30,26 @@ class MailTest {
 			.locale(Locale.US)
 			.build();
 
-		assertThat(mail).returns("test-template", Mail::template)
-			.returns(StandardCharsets.UTF_8, Mail::encoding)
-			.returns(Locale.US, Mail::locale)
-			.returns(new Address("sender@konfigyr.com"), Mail::from)
-			.satisfies(it -> assertThat(it.subject()).returns("test-subject", Subject::value)
-				.extracting(Subject::arguments)
-				.asInstanceOf(InstanceOfAssertFactories.array(Object[].class))
-				.containsExactlyInAnyOrder("args", "used", "by message source"))
-			.satisfies(it -> assertThat(it.subject()).extracting(Subject::toResolvable)
-				.returns(new String[] { it.subject().value() }, MessageSourceResolvable::getCodes)
-				.returns(it.subject().value(), MessageSourceResolvable::getDefaultMessage)
-				.returns(it.subject().arguments(), MessageSourceResolvable::getArguments))
-			.satisfies(it -> assertThat(it.recipients()).hasSize(4)
-				.containsExactlyInAnyOrder(Recipient.to("to@konfigyr.com"), Recipient.cc("cc@konfigyr.com", "CC"),
-						Recipient.bcc("bcc@konfigyr.com"), Recipient.bcc("bcc2@konfigyr.com")))
-			.satisfies(it -> assertThat(it.replyTo()).hasSize(1)
-				.containsExactlyInAnyOrder(new Address("reply-to@konfigyr.com")))
-			.satisfies(it -> assertThat(it.attributes()).hasSize(3)
-				.containsEntry("key", "value")
-				.containsEntry("number", 1)
-				.containsEntry("bool", true));
+		MailAssert.assertThat(mail)
+			.hasTemplate("test-template")
+			.hasEncoding(StandardCharsets.UTF_8)
+			.hasLocale(Locale.US)
+			.hasSubject("test-subject", "args", "used", "by message source")
+			.sentBy(new Address("sender@konfigyr.com"))
+			.hasReplyTo(new Address("reply-to@konfigyr.com"))
+			.hasRecipients(
+				Recipient.to("to@konfigyr.com"),
+				Recipient.cc("cc@konfigyr.com", "CC"),
+				Recipient.bcc("bcc@konfigyr.com"),
+				Recipient.bcc("bcc2@konfigyr.com"))
+			.hasAttribute("key", "value")
+			.hasAttribute("number", 1)
+			.hasAttribute("bool", true);
+
+		assertThat(mail.subject()).extracting(Subject::toResolvable)
+			.returns(new String[] { mail.subject().value() }, MessageSourceResolvable::getCodes)
+			.returns(mail.subject().value(), MessageSourceResolvable::getDefaultMessage)
+			.returns(mail.subject().arguments(), MessageSourceResolvable::getArguments);
 	}
 
 }

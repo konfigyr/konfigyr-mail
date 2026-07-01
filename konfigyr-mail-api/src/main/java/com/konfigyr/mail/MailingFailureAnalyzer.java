@@ -22,7 +22,7 @@ import java.util.Objects;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class MailingFailureAnalyzer extends AbstractFailureAnalyzer<@NonNull NoSuchBeanDefinitionException> {
 
-	static List<String> MAILER_IMPLEMENTATIONS = List.of("konfigyr-mail-smtp");
+	static List<String> TRANSPORT_IMPLEMENTATIONS = List.of("konfigyr-mail-smtp");
 	static List<String> TEMPLATE_IMPLEMENTATIONS = List.of("konfigyr-mail-thymeleaf");
 
 	@Override
@@ -33,8 +33,8 @@ class MailingFailureAnalyzer extends AbstractFailureAnalyzer<@NonNull NoSuchBean
 			return null;
 		}
 
-		if (type.isAssignableFrom(Mailer.class)) {
-			return new FailureAnalysis(generateDescription(type), generateAction(type, MAILER_IMPLEMENTATIONS), root);
+		if (type.isAssignableFrom(Transport.class)) {
+			return new FailureAnalysis(generateDescription(type), generateAction(type, TRANSPORT_IMPLEMENTATIONS), root);
 		}
 
 		if (type.isAssignableFrom(TemplateEngine.class)) {

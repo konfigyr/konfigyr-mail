@@ -60,4 +60,24 @@ class ThymeleafTemplateEngineAutoConfigurationTest {
 			.hasBean("thymeleafMailTemplateEngine"));
 	}
 
+	@Test
+	@DisplayName("should be registered before MailerAutoConfiguration so Mailer is wired with Thymeleaf template engine")
+	void shouldAutoconfigureBeforeMailerAutoConfiguration() {
+		final var runner = new ApplicationContextRunner()
+			.withBean(Transport.class, () -> mock(Transport.class))
+			.withConfiguration(
+				AutoConfigurations.of(
+					ThymeleafAutoConfiguration.class,
+					ThymeleafTemplateEngineAutoConfiguration.class,
+					MailerAutoConfiguration.class
+				)
+			);
+
+		runner.run(context -> assertThat(context).hasNotFailed()
+			.hasSingleBean(Mailer.class)
+			.hasSingleBean(TemplateEngine.class)
+			.getBean(TemplateEngine.class)
+			.isInstanceOf(ThymeleafTemplateEngine.class));
+	}
+
 }

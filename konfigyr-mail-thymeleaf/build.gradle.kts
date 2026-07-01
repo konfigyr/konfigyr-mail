@@ -6,6 +6,7 @@ dependencies {
     compileOnly(libs.spring.starter.thymeleaf)
     compileOnly(libs.thymeleaf)
 
+    testImplementation(project(":konfigyr-mail-test"))
     testImplementation(libs.spring.starter.thymeleaf)
     testImplementation(libs.thymeleaf)
 }
