@@ -27,10 +27,14 @@ import java.util.*;
  * from Spring {@link LocaleContextHolder} would be used.
  *
  * @param subject the mail subject
- * @param template name of the template to be rendered
+ * @param template logical name of the template passed to the {@link TemplateEngine} for
+ * rendering; with the Thymeleaf implementation this resolves to a
+ * {@code classpath:/templates/<name>.html} resource, no file extension should be
+ * included
  * @param attributes template rendering context attributes
  * @param recipients the mail recipients
- * @param from specifies the sender of the mail
+ * @param from optional sender address; when {@literal null}, falls back to the default
+ * configured via {@code spring.mail.sender.email} if the auto-configuration is active
  * @param replyTo reply-to address
  * @param encoding mail contents character encoding
  * @param locale language to be used by the subject and template
@@ -56,6 +60,8 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 	/**
 	 * Builder for constructing immutable {@link Mail} instances.
 	 * Use {@link Mail#builder()} to obtain a new instance.
+	 *
+	 * @since 1.0.0
 	 */
 	@NullUnmarked
 	public static final class Builder {
@@ -81,8 +87,12 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 
 		/**
 		 * Sets the subject of this mail.
-		 * @param subject subject message source code or a default value
-		 * @param arguments subject message source arguments
+		 *
+		 * @param subject a Spring {@link org.springframework.context.MessageSource} message
+		 * code used to look up the localized subject; if no message is found for this code
+		 * the raw value is used verbatim
+		 * @param arguments optional arguments forwarded to the message source for
+		 * placeholder substitution
 		 * @return builder instance
 		 */
 		@NonNull
@@ -92,6 +102,7 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 
 		/**
 		 * Sets the subject of this mail.
+		 *
 		 * @param subject subject to be used
 		 * @return builder instance
 		 */
@@ -102,9 +113,10 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 		}
 
 		/**
-		 * Sets the name of the template that would be rendered by the
-		 * {@link TemplateEngine} when this mail is sent.
-		 * @param template template name for the mail
+		 * Sets the name of the template that would be rendered by the {@link TemplateEngine} when this mail is sent.
+		 *
+		 * @param template logical name of the template resource, without file extension;
+		 * passed directly to the {@link TemplateEngine}, e.g. {@code emails/welcome}
 		 * @return builder instance
 		 */
 		@NonNull
@@ -116,8 +128,10 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 		/**
 		 * Specify the context attribute for the {@link TemplateEngine} when it evaluates
 		 * the mail template.
-		 * @param key attribute key
-		 * @param value attribute value
+		 *
+		 * @param key non-null name under which the attribute is stored in the template
+		 * rendering context; a duplicate key silently overwrites the previous value
+		 * @param value the object to expose to template expressions under {@code key}
 		 * @return builder instance
 		 */
 		@NonNull
@@ -129,6 +143,7 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 		/**
 		 * Specify the context attributes for the {@link TemplateEngine} when it evaluates
 		 * the mail template.
+		 *
 		 * @param attributes additional attributes map
 		 * @return builder instance
 		 */
@@ -367,8 +382,13 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 
 		/**
 		 * Creates a new immutable {@link Mail} instance from this builder configuration.
-		 * @throws IllegalArgumentException when required configuration is missing
-		 * @return resulting mail instance, never {@literal null}
+		 * <p>
+		 * When not set explicitly: {@code encoding} defaults to UTF-8 and {@code locale}
+		 * defaults to the value from
+		 * {@link org.springframework.context.i18n.LocaleContextHolder#getLocale()}.
+		 * @throws IllegalArgumentException if {@code subject} has not been set, if
+		 * {@code template} is blank, or if no recipients have been added
+		 * @return new immutable {@link Mail} instance; never {@literal null}
 		 */
 		@NonNull
 		public Mail build() {

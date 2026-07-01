@@ -23,7 +23,7 @@ public record Address(String email, @Nullable String name) implements Serializab
 
 	/**
 	 * Creates a new address with just an email address without a display name.
-	 * @param email email address
+	 * @param email the email address string; must not be blank. Format is validated at send time, not at construction
 	 * @throws IllegalArgumentException when email is blank
 	 */
 	public Address(String email) {

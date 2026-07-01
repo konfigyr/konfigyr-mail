@@ -16,14 +16,14 @@ import org.springframework.util.MimeType;
 public record Template(String contents, MimeType contentType) {
 
 	/**
-	 * HTML content type (text/html).
+	 * Canonical HTML content type ({@code text/html}).
 	 */
-	public static MimeType HTML = MimeType.valueOf("text/html");
+	public static final MimeType HTML = MimeType.valueOf("text/html");
 
 	/**
-	 * Plain text content type (text/plain).
+	 * Canonical plain-text content type ({@code text/plain}).
 	 */
-	public static MimeType TEXT = MimeType.valueOf("text/plain");
+	public static final MimeType TEXT = MimeType.valueOf("text/plain");
 
 	/**
 	 * Creates a new Mail template instance with contents and content type.
@@ -38,8 +38,9 @@ public record Template(String contents, MimeType contentType) {
 
 	/**
 	 * Constructs a new HTML {@link Template} instance with given contents.
-	 * @param contents template contents
-	 * @return HTML template
+	 *
+	 * @param contents the fully-rendered HTML body string for the message; must not be blank
+	 * @return a new {@link Template} with content type {@link #HTML} and the given contents; never {@literal null}
 	 * @throws IllegalArgumentException when template contents is blank.
 	 */
 	public static Template html(String contents) {
@@ -48,8 +49,9 @@ public record Template(String contents, MimeType contentType) {
 
 	/**
 	 * Constructs a new plain text {@link Template} instance with given contents.
-	 * @param contents template contents
-	 * @return plain text template
+	 *
+	 * @param contents the fully-rendered plain-text body string for the message; must not be blank
+	 * @return a new {@link Template} with content type {@link #TEXT} and the given contents; never {@literal null}
 	 * @throws IllegalArgumentException when contents is blank.
 	 */
 	public static Template text(String contents) {

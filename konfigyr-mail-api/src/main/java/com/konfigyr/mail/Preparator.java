@@ -22,10 +22,12 @@ public interface Preparator<T> {
 	 * Prepare the {@link Mailer} target using the configured {@link Mail}. Usually the
 	 * implementation is simply copying and mapping the values from the Konfigyr Mail API
 	 * to the actual mail transport, be it SMTP, HTTP or any other.
+	 *
 	 * @param mail mail to be sent, can't be {@literal null}
 	 * @param target target object to be prepared, can't be {@literal null}
 	 * @return the prepared target, never {@literal null}
-	 * @throws Exception when there is an error during preparation
+	 * @throws Exception if preparation fails; callers such as {@link Mailer} are
+	 * responsible for wrapping or handling the exception appropriately
 	 */
 	T prepare(Mail mail, T target) throws Exception;
 
@@ -35,6 +37,7 @@ public interface Preparator<T> {
 	 * <p>
 	 * If the execution of either {@link Preparator preparators} throws an exception, it
 	 * is relayed to the caller of the composed {@link Preparator}.
+	 *
 	 * @param next the preparator to apply after this one
 	 * @return a composed {@link Preparator}
 	 */
@@ -53,7 +56,9 @@ public interface Preparator<T> {
 
 	/**
 	 * Aggregates all the {@link Preparator preparators} in a single chained
-	 * {@link Preparator} instance.
+	 * {@link Preparator} instance. When {@code preparators} is {@literal null} or yields
+	 * no elements, the returned preparator is equivalent to {@link #noop()}.
+	 *
 	 * @param <T> preparator target type
 	 * @param preparators preparators to be reduced
 	 * @return single chained {@link Preparator} instance.
@@ -68,7 +73,9 @@ public interface Preparator<T> {
 
 	/**
 	 * Aggregates all the {@link Preparator preparators} in a single chained
-	 * {@link Preparator} instance.
+	 * {@link Preparator} instance. When {@code preparators} is {@literal null} or yields
+	 * no elements, the returned preparator is equivalent to {@link #noop()}.
+	 *
 	 * @param <T> preparator target type
 	 * @param preparators preparators to be reduced
 	 * @return single chained {@link Preparator} instance.

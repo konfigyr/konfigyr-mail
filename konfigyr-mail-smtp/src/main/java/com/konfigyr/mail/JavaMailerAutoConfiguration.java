@@ -15,8 +15,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 /**
- * Autoconfiguration class that would register the {@link Mailer} that is using Spring
- * {@link org.springframework.mail.javamail.JavaMailSender} to send {@link Mail mails}.
+ * Autoconfigures a {@link Mailer} bean backed by Spring's {@link org.springframework.mail.javamail.JavaMailSender}.
+ * <p>
+ * If the {@code spring.mail.sender.email} property is set, a default-sender
+ * {@link Preparator} is also registered and applies the {@code From} header to messages
+ * that do not specify one via {@link Mail.Builder} from methods. The optional
+ * {@code spring.mail.sender.name} property sets the corresponding display name.
+ * <p>
+ * Any {@code Preparator<MimeMessageHelper>} beans present in the application context are
+ * automatically appended to the preparator chain, after the built-in address, subject, and
+ * template steps.
  *
  * @author Vladimir Spasic
  * @since 1.0.0

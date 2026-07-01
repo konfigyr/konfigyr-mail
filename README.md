@@ -1,12 +1,12 @@
 # konfigyr-mail
 
 A modular Spring Boot library for sending templated emails. It provides a clean abstraction over mail transport
-and template rendering, with auto-configured implementations for SMTP (via Spring Mail) and Thymeleaf.
+and template rendering, with autoconfigured implementations for SMTP (via Spring Mail) and Thymeleaf.
 
 ## Requirements
 
 - Java 21+
-- Spring Boot 4.x
+- Spring Boot 4.1.0+
 
 ## Modules
 
@@ -92,11 +92,17 @@ class NotificationService {
 }
 ```
 
-The `subject` value is resolved against a `MessageSource` — if no message is found the raw value is used as a fallback. The `template` name is passed to the `TemplateEngine`; with Thymeleaf it maps to a template on the classpath (e.g. `templates/emails/welcome.html`).
+The `subject` value is resolved against a `MessageSource` — if no message is found the raw value is used as a fallback.
+The `template` name is passed to the `TemplateEngine`; with Thymeleaf it maps to a template on the classpath (e.g. `templates/emails/welcome.html`).
 
-To add custom preparators that run before a message is dispatched, register any number of `Preparator<MimeMessageHelper>` beans — they are picked up and chained automatically by the auto-configuration.
+To add custom preparators, register any number of `Preparator<MimeMessageHelper>` beans, they are picked up automatically
+and appended to the end of the preparation chain, after addresses, subject, and template have already been applied.
+
+> **Note:** If neither `Mail.Builder.from()` is called on a message nor `spring.mail.sender.email` is configured,
+> no `From` header is added to the outgoing message. Most SMTP servers will reject such a message.
 
 ## Links
 
 - [Issue tracker](https://github.com/konfigyr/konfigyr-mail/issues)
+- [Contributing](CONTRIBUTING.md) — build, test, and pull-request workflow
 - [License](LICENSE) — Apache 2.0

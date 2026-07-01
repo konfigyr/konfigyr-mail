@@ -26,6 +26,17 @@ public class ThymeleafTemplateEngine implements TemplateEngine {
 		this.thymeleaf = thymeleaf;
 	}
 
+	/**
+	 * Processes the template named by {@link Mail#template()} using a Thymeleaf
+	 * {@link org.thymeleaf.context.Context} populated with the mail's locale and
+	 * attributes. Always returns a {@link Template#html(String) HTML} template.
+	 * <p>
+	 * Thymeleaf processing errors are propagated as the unchecked
+	 * {@link org.thymeleaf.exceptions.TemplateEngineException} rather than {@link java.io.IOException}.
+	 *
+	 * @param mail mail to be rendered, never {@literal null}
+	 * @return the fully rendered HTML {@link Template}; never {@literal null}
+	 */
 	@NonNull
 	@Override
 	public Template render(@NonNull Mail mail) {
