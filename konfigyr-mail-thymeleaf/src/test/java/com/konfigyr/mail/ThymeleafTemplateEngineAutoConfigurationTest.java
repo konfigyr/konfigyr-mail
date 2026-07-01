@@ -9,10 +9,6 @@ import org.springframework.boot.thymeleaf.autoconfigure.ThymeleafAutoConfigurati
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-/**
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
 class ThymeleafTemplateEngineAutoConfigurationTest {
 
 	@Test

@@ -15,11 +15,19 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 /**
- * Autoconfiguration class that would register the {@link Mailer} that is using Spring
- * {@link org.springframework.mail.javamail.JavaMailSender} to send {@link Mail mails}.
+ * Autoconfigures a {@link Mailer} bean backed by Spring's {@link org.springframework.mail.javamail.JavaMailSender}.
+ * <p>
+ * If the {@code spring.mail.sender.email} property is set, a default-sender
+ * {@link Preparator} is also registered and applies the {@code From} header to messages
+ * that do not specify one via {@link Mail.Builder} from methods. The optional
+ * {@code spring.mail.sender.name} property sets the corresponding display name.
+ * <p>
+ * Any {@code Preparator<MimeMessageHelper>} beans present in the application context are
+ * automatically appended to the preparator chain, after the built-in address, subject, and
+ * template steps.
  *
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
 @NullMarked
 @AutoConfiguration
@@ -28,17 +36,21 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 @AutoConfigureAfter(MailSenderAutoConfiguration.class)
 public class JavaMailerAutoConfiguration {
 
+	/** Creates a new {@link JavaMailerAutoConfiguration} instance. */
+	public JavaMailerAutoConfiguration() {
+	}
+
 	static final String SENDER_PROPERTY = "spring.mail.sender";
 
 	@Bean
 	Mailer javaMailer(JavaMailSender sender, MessageSource messageSource, TemplateEngine templateEngine,
-			ObjectProvider<Preperator<MimeMessageHelper>> preperators) {
-		return new JavaMailer(sender, messageSource, templateEngine, preperators);
+			ObjectProvider<Preparator<MimeMessageHelper>> preparators) {
+		return new JavaMailer(sender, messageSource, templateEngine, preparators);
 	}
 
 	@Bean
 	@ConditionalOnProperty(prefix = SENDER_PROPERTY, name = "email")
-	Preperator<MimeMessageHelper> defaultSenderPreperator(Environment environment) {
+	Preparator<MimeMessageHelper> defaultSenderPreparator(Environment environment) {
 		return JavaMailer.sender(environment.getProperty(SENDER_PROPERTY + ".email"),
 				environment.getProperty(SENDER_PROPERTY + ".name"));
 	}

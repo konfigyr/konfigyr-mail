@@ -16,8 +16,8 @@ import java.util.Objects;
  * provide more meaningful error messages when the Spring Boot Application fails when one
  * of the required Konfigyr Mail implementations are missing.
  *
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class MailingFailureAnalyzer extends AbstractFailureAnalyzer<@NonNull NoSuchBeanDefinitionException> {

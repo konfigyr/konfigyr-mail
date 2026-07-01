@@ -11,12 +11,8 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
 @ExtendWith(MockitoExtension.class)
-class PreperatorTest {
+class PreparatorTest {
 
 	@Mock
 	Mail mail;
@@ -24,13 +20,13 @@ class PreperatorTest {
 	@Test
 	@DisplayName("should chain preparators")
 	void shouldChainPreparators() throws Exception {
-		final var preparator = preperatorAppend(";1").and(preperatorAppend(";2"))
-			.and(Preperator.noop())
-			.and(Preperator.noop())
-			.and(preperatorAppend(";3"))
-			.and(preperatorAppend(";4"))
-			.and(Preperator.noop())
-			.and(preperatorAppend(";5"));
+		final var preparator = preparatorAppend(";1").and(preparatorAppend(";2"))
+			.and(Preparator.noop())
+			.and(Preparator.noop())
+			.and(preparatorAppend(";3"))
+			.and(preparatorAppend(";4"))
+			.and(Preparator.noop())
+			.and(preparatorAppend(";5"));
 
 		assertThat(preparator.prepare(mail, "0")).isEqualTo("0;1;2;3;4;5");
 
@@ -39,19 +35,19 @@ class PreperatorTest {
 	@Test
 	@DisplayName("should aggregate preparators")
 	void shouldAggregatePreparators() throws Exception {
-		final var preparator = Preperator
-			.aggregate(List.of(preperatorAppend(";1"), preperatorAppend(";2"), Preperator.noop(),
-					preperatorAppend(";3"), preperatorAppend(";4"), preperatorAppend(";5"), Preperator.noop()));
+		final var preparator = Preparator
+			.aggregate(List.of(preparatorAppend(";1"), preparatorAppend(";2"), Preparator.noop(),
+					preparatorAppend(";3"), preparatorAppend(";4"), preparatorAppend(";5"), Preparator.noop()));
 
 		assertThat(preparator.prepare(mail, "0")).isEqualTo("0;1;2;3;4;5");
 
-		assertThat(Preperator.aggregate((Iterable<Preperator<String>>) null).prepare(mail, "target"))
+		assertThat(Preparator.aggregate((Iterable<Preparator<String>>) null).prepare(mail, "target"))
 			.isEqualTo("target");
 
-		assertThat(Preperator.aggregate((Stream<Preperator<String>>) null).prepare(mail, "target")).isEqualTo("target");
+		assertThat(Preparator.aggregate((Stream<Preparator<String>>) null).prepare(mail, "target")).isEqualTo("target");
 	}
 
-	static Preperator<String> preperatorAppend(String value) {
+	static Preparator<String> preparatorAppend(String value) {
 		return (mail, target) -> target + value;
 	}
 

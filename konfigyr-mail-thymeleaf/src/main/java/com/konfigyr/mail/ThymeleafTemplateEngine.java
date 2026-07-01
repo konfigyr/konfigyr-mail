@@ -1,6 +1,5 @@
 package com.konfigyr.mail;
 
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.Context;
@@ -11,14 +10,33 @@ import org.thymeleaf.context.IContext;
  * {@link ITemplateEngine} to retrieve and process mail templates.
  *
  * @see ITemplateEngine
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
-@RequiredArgsConstructor
 public class ThymeleafTemplateEngine implements TemplateEngine {
 
 	private final ITemplateEngine thymeleaf;
 
+	/**
+	 * Creates a new {@link ThymeleafTemplateEngine} that delegates template rendering
+	 * to the given Thymeleaf {@link ITemplateEngine}.
+	 * @param thymeleaf Thymeleaf template engine to use, can't be {@literal null}
+	 */
+	public ThymeleafTemplateEngine(ITemplateEngine thymeleaf) {
+		this.thymeleaf = thymeleaf;
+	}
+
+	/**
+	 * Processes the template named by {@link Mail#template()} using a Thymeleaf
+	 * {@link org.thymeleaf.context.Context} populated with the mail's locale and
+	 * attributes. Always returns a {@link Template#html(String) HTML} template.
+	 * <p>
+	 * Thymeleaf processing errors are propagated as the unchecked
+	 * {@link org.thymeleaf.exceptions.TemplateEngineException} rather than {@link java.io.IOException}.
+	 *
+	 * @param mail mail to be rendered, never {@literal null}
+	 * @return the fully rendered HTML {@link Template}; never {@literal null}
+	 */
 	@NonNull
 	@Override
 	public Template render(@NonNull Mail mail) {

@@ -13,8 +13,8 @@ import java.io.Serializable;
  * @param address recipient address, can't be {@literal null}
  * @param type recipient type, can't be {@literal null}
  * @see Address
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
 @NullMarked
 public record Recipient(Address address, Type type) implements Serializable {
@@ -116,9 +116,12 @@ public record Recipient(Address address, Type type) implements Serializable {
 	}
 
 	/**
-	 * Defines the types of recipients allowed by the Mail API.
+	 * Defines the role a recipient plays in the email: primary addressee (TO), carbon
+	 * copy (CC), or blind carbon copy (BCC).
+	 *
+	 * @since 1.0.0
 	 */
-	enum Type {
+	public enum Type {
 
 		/**
 		 * The "To" (primary) recipients.

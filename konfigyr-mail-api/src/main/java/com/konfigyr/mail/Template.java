@@ -7,33 +7,41 @@ import org.springframework.util.MimeType;
 /**
  * Immutable Mail template object that is returned by the {@link TemplateEngine}.
  *
- * @param contents the actual template content to be added the mail message
+ * @param contents the actual template content to be added the mail message, can't be {@literal blank}
  * @param contentType defines which content type should be used for this template
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
 @NullMarked
 public record Template(String contents, MimeType contentType) {
 
 	/**
-	 * HTML content type (text/html).
+	 * Canonical HTML content type ({@code text/html}).
 	 */
-	public static MimeType HTML = MimeType.valueOf("text/html");
+	public static final MimeType HTML = MimeType.valueOf("text/html");
 
 	/**
-	 * Plain text content type (text/plain).
+	 * Canonical plain-text content type ({@code text/plain}).
 	 */
-	public static MimeType TEXT = MimeType.valueOf("text/plain");
+	public static final MimeType TEXT = MimeType.valueOf("text/plain");
 
+	/**
+	 * Creates a new Mail template instance with contents and content type.
+	 *
+	 * @param contents the actual template content to be added the mail message, can't be {@literal blank}
+	 * @param contentType defines which content type should be used for this template
+	 * @throws IllegalArgumentException when template contents is blank.
+	 */
 	public Template {
 		Assert.hasText(contents, "Template contents can not be blank");
 	}
 
 	/**
 	 * Constructs a new HTML {@link Template} instance with given contents.
-	 * @param contents template contents
-	 * @return HTML template
-	 * @throws IllegalArgumentException when contents is blank.
+	 *
+	 * @param contents the fully-rendered HTML body string for the message; must not be blank
+	 * @return a new {@link Template} with content type {@link #HTML} and the given contents; never {@literal null}
+	 * @throws IllegalArgumentException when template contents is blank.
 	 */
 	public static Template html(String contents) {
 		return new Template(contents, HTML);
@@ -41,8 +49,9 @@ public record Template(String contents, MimeType contentType) {
 
 	/**
 	 * Constructs a new plain text {@link Template} instance with given contents.
-	 * @param contents template contents
-	 * @return plain text template
+	 *
+	 * @param contents the fully-rendered plain-text body string for the message; must not be blank
+	 * @return a new {@link Template} with content type {@link #TEXT} and the given contents; never {@literal null}
 	 * @throws IllegalArgumentException when contents is blank.
 	 */
 	public static Template text(String contents) {

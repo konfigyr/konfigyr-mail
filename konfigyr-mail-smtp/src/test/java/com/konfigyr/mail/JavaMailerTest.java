@@ -22,12 +22,8 @@ import java.util.Locale;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
-@SpringBootTest(classes = IntegrationTestConfiguration.class)
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest(classes = IntegrationTestConfiguration.class)
 class JavaMailerTest {
 
 	static ServerSetup server = new ServerSetup(2500, null, "smtp");
@@ -72,6 +68,7 @@ class JavaMailerTest {
 			.template("template")
 			.to("test@konfigyr.com")
 			.cc("cc@konfigyr.com")
+			.bcc("cc@konfigyr.com")
 			.replyTo("reply@konfigyr.com")
 			.locale(Locale.US)
 			.build();

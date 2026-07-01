@@ -14,10 +14,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-/**
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
 @ExtendWith(MockitoExtension.class)
 class JavaMailerAutoConfigurationTest {
 
@@ -67,7 +63,7 @@ class JavaMailerAutoConfigurationTest {
 	}
 
 	@Test
-	@DisplayName("should register mailer without default sender preperator")
+	@DisplayName("should register mailer without default sender preparator")
 	void shouldAutoconfigureWithoutPreparator() {
 		runner.withBean(JavaMailSender.class, () -> sender)
 			.withBean(TemplateEngine.class, () -> engine)
@@ -75,11 +71,11 @@ class JavaMailerAutoConfigurationTest {
 				.hasSingleBean(JavaMailerAutoConfiguration.class)
 				.hasSingleBean(Mailer.class)
 				.hasBean("javaMailer")
-				.doesNotHaveBean(Preperator.class));
+				.doesNotHaveBean(Preparator.class));
 	}
 
 	@Test
-	@DisplayName("should register mailer with default sender preperator")
+	@DisplayName("should register mailer with default sender preparator")
 	void shouldAutoconfigureWithPreparator() {
 		runner.withBean(JavaMailSender.class, () -> sender)
 			.withBean(TemplateEngine.class, () -> engine)
@@ -88,7 +84,7 @@ class JavaMailerAutoConfigurationTest {
 				.hasSingleBean(JavaMailerAutoConfiguration.class)
 				.hasSingleBean(Mailer.class)
 				.hasBean("javaMailer")
-				.hasBean("defaultSenderPreperator"));
+				.hasBean("defaultSenderPreparator"));
 	}
 
 }

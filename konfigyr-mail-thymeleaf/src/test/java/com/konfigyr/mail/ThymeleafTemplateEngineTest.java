@@ -7,10 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
 @SpringBootTest(classes = IntegrationTestConfiguration.class)
 class ThymeleafTemplateEngineTest {
 

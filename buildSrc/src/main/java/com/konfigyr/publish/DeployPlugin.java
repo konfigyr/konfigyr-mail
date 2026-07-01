@@ -20,8 +20,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * @author : Vladimir Spasic
- * @since : 04.09.23, Mon
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
 public class DeployPlugin implements Plugin<@NonNull Project> {
 
@@ -86,7 +86,7 @@ public class DeployPlugin implements Plugin<@NonNull Project> {
 		pom.developers(developers -> developers.developer(developer -> {
 			developer.getId().set("vspasic");
 			developer.getName().set("Vladimir Spasic");
-			developer.getEmail().set("Vladimir Spasic");
+			developer.getEmail().set("vladimir.spasic@ebf.com");
 			developer.getRoles().add("Project lead");
 		}));
 		pom.issueManagement(issue -> {

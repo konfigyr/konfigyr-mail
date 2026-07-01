@@ -12,14 +12,18 @@ import org.thymeleaf.ITemplateEngine;
  * Autoconfiguration class that would register the {@link TemplateEngine} that is using
  * {@link ITemplateEngine} to generate {@link Template mail templates}.
  *
- * @author : Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @author Vladimir Spasic
+ * @since 1.0.0
  **/
 @AutoConfiguration
 @ConditionalOnBean(ITemplateEngine.class)
 @ConditionalOnMissingBean(TemplateEngine.class)
 @AutoConfigureAfter(ThymeleafAutoConfiguration.class)
 public class ThymeleafTemplateEngineAutoConfiguration {
+
+	/** Creates a new {@link ThymeleafTemplateEngineAutoConfiguration} instance. */
+	public ThymeleafTemplateEngineAutoConfiguration() {
+	}
 
 	@Bean
 	TemplateEngine thymeleafMailTemplateEngine(ITemplateEngine thymeleaf) {

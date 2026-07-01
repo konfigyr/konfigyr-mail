@@ -10,7 +10,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        jdk: [17, 25]
+        jdk: [21, 25]
       fail-fast: false
     runs-on: ubuntu-latest
     permissions:
