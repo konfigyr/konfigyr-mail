@@ -19,7 +19,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  * {@link org.springframework.mail.javamail.JavaMailSender} to send {@link Mail mails}.
  *
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 @AutoConfiguration

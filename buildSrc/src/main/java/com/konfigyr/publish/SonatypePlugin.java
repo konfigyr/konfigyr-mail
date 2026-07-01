@@ -10,7 +10,7 @@ import java.net.URI;
 
 /**
  * @author Vladimir Spasic
- * @since : 08.09.23, Fri
+ * @since 1.0.0
  **/
 public class SonatypePlugin implements Plugin<@NonNull Project> {
 

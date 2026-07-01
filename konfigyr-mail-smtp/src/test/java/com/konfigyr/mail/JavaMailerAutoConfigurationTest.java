@@ -14,10 +14,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-/**
- * @author Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
 @ExtendWith(MockitoExtension.class)
 class JavaMailerAutoConfigurationTest {
 

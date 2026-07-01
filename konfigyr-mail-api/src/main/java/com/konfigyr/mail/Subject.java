@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @param value subject value or message source code, can't be {@literal blank}
  * @param arguments optional formatting arguments passed to the message source
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 public record Subject(String value, Object... arguments) implements Serializable {
 

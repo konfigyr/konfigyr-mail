@@ -8,7 +8,7 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * @author Vladimir Spasic
- * @since : 04.09.23, Mon
+ * @since 1.0.0
  **/
 @NullMarked
 public abstract class DeployExtension {

@@ -10,7 +10,7 @@ import org.springframework.util.MimeType;
  * @param contents the actual template content to be added the mail message, can't be {@literal blank}
  * @param contentType defines which content type should be used for this template
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 public record Template(String contents, MimeType contentType) {

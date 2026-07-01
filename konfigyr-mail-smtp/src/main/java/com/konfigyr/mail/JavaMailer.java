@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 class JavaMailer implements Mailer {
 
@@ -98,7 +98,7 @@ class JavaMailer implements Mailer {
 
 			return helper;
 		};
-	};
+	}
 
 	static Preparator<@NonNull MimeMessageHelper> subject(MessageSource messageSource) {
 		Assert.notNull(messageSource, "Mail Message Source can not be null");

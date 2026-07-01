@@ -9,7 +9,7 @@ import java.io.IOException;
  * it's being sent by the {@link Mailer}.
  *
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 public interface TemplateEngine {

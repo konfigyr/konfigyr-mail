@@ -13,7 +13,7 @@ import org.thymeleaf.ITemplateEngine;
  * {@link ITemplateEngine} to generate {@link Template mail templates}.
  *
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @AutoConfiguration
 @ConditionalOnBean(ITemplateEngine.class)

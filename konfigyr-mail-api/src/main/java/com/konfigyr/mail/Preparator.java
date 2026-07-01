@@ -12,7 +12,7 @@ import java.util.stream.StreamSupport;
  *
  * @param <T> generic type of the mailing target that is being prepared
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 @FunctionalInterface

@@ -35,7 +35,7 @@ import java.util.*;
  * @param encoding mail contents character encoding
  * @param locale language to be used by the subject and template
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 public record Mail(Subject subject, String template, Map<String, Object> attributes, Set<Recipient> recipients,

@@ -15,10 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatException;
 
-/**
- * @author Vladimir Spasic
- * @since : 31.10.23, Tue
- **/
 @ExtendWith(OutputCaptureExtension.class)
 class MailingFailureAnalyzerTest {
 

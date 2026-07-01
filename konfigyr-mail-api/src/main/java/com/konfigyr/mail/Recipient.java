@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @param type recipient type, can't be {@literal null}
  * @see Address
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 public record Recipient(Address address, Type type) implements Serializable {

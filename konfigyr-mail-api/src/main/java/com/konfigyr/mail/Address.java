@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @param email email address, can't be {@literal blank}
  * @param name display name, can be {@literal null}
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 public record Address(String email, @Nullable String name) implements Serializable {

@@ -11,7 +11,7 @@ import org.thymeleaf.context.IContext;
  *
  * @see ITemplateEngine
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 public class ThymeleafTemplateEngine implements TemplateEngine {
 

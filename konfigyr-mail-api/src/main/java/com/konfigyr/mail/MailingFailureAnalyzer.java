@@ -17,7 +17,7 @@ import java.util.Objects;
  * of the required Konfigyr Mail implementations are missing.
  *
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class MailingFailureAnalyzer extends AbstractFailureAnalyzer<@NonNull NoSuchBeanDefinitionException> {

@@ -6,7 +6,7 @@ import org.jspecify.annotations.NullMarked;
  * Interface that defines how a {@link Mail} should be sent.
  *
  * @author Vladimir Spasic
- * @since : 31.10.23, Tue
+ * @since 1.0.0
  **/
 @NullMarked
 public interface Mailer {
