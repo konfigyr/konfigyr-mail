@@ -9,6 +9,7 @@ dependencies {
     constraints {
         api(project(":konfigyr-mail-api"))
         api(project(":konfigyr-mail-smtp"))
+        api(project(":konfigyr-mail-test"))
         api(project(":konfigyr-mail-thymeleaf"))
     }
 }
