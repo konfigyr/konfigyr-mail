@@ -2,6 +2,7 @@ package com.konfigyr.mail;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.thymeleaf.autoconfigure.ThymeleafAutoConfiguration;
@@ -18,6 +19,7 @@ import org.thymeleaf.ITemplateEngine;
 @AutoConfiguration
 @ConditionalOnBean(ITemplateEngine.class)
 @ConditionalOnMissingBean(TemplateEngine.class)
+@AutoConfigureBefore(MailerAutoConfiguration.class)
 @AutoConfigureAfter(ThymeleafAutoConfiguration.class)
 public class ThymeleafTemplateEngineAutoConfiguration {
 

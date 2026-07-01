@@ -10,10 +10,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.MailPreparationException;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.util.MimeType;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = IntegrationTestConfiguration.class)
-class JavaMailerTest {
+class JavaMailSenderTransportTest {
 
 	static ServerSetup server = new ServerSetup(2500, null, "smtp");
 	static GreenMail smtp = new GreenMail(server);
@@ -37,6 +39,9 @@ class JavaMailerTest {
 		registry.add("spring.mail.sender.name", () -> "Default sender");
 		registry.add("spring.messages.basename", () -> "messages/mail");
 	}
+
+	@MockitoSpyBean
+	MessageSource messageSource;
 
 	@MockitoBean
 	TemplateEngine engine;
@@ -126,7 +131,41 @@ class JavaMailerTest {
 	}
 
 	@Test
-	@DisplayName("should fail to send when template engines fails")
+	@DisplayName("should send mail via SMTP with default subject when message source fails")
+	void shouldSendMailWithDefaultSubject() throws IOException {
+		final var mail = Mail.builder()
+			.subject("test-email-subject")
+			.template("template")
+			.to("test@konfigyr.com", "Test Konfigyr")
+			.locale(Locale.GERMANY)
+			.build();
+
+		doThrow(NoSuchMessageException.class).when(messageSource)
+			.getMessage(mail.subject().toResolvable(), mail.locale());
+
+		doReturn(Template.html("Email HTML template")).when(engine).render(mail);
+
+		assertThatNoException().isThrownBy(() -> mailer.send(mail));
+
+		final var messages = smtp.getReceivedMessages();
+		assertThat(messages).isNotEmpty()
+			.hasSize(1)
+			.allSatisfy(
+				message -> assertThat(message).satisfies(it -> assertThat(it.getSubject()).isEqualTo("test-email-subject"))
+					.satisfies(it -> assertThat(message.getContentType()).contains("text/html"))
+					.satisfies(it -> assertThat(it.getContent()).isEqualTo("Email HTML template"))
+					.satisfies(it -> assertThat(it.getFrom())
+						.containsExactly(new InternetAddress("info@konfigyr.com", "Default sender")))
+					.satisfies(it -> assertThat(it.getRecipients(Message.RecipientType.TO))
+						.containsExactly(new InternetAddress("test@konfigyr.com", "Test Konfigyr")))
+					.satisfies(it -> assertThat(it.getRecipients(Message.RecipientType.CC)).isNullOrEmpty())
+					.satisfies(it -> assertThat(it.getRecipients(Message.RecipientType.BCC)).isNullOrEmpty())
+					.satisfies(it -> assertThat(it.getReplyTo())
+						.containsExactly(new InternetAddress("info@konfigyr.com", "Default sender"))));
+	}
+
+	@Test
+	@DisplayName("should fail to send when template engine fails")
 	void templateEngineShouldFail() throws IOException {
 		final var mail = Mail.builder()
 			.subject("test-email-subject")
@@ -137,8 +176,9 @@ class JavaMailerTest {
 
 		doThrow(IOException.class).when(engine).render(mail);
 
-		assertThatException().isThrownBy(() -> mailer.send(mail))
-			.isInstanceOf(MailPreparationException.class)
+		assertThatExceptionOfType(MailingException.class)
+			.isThrownBy(() -> mailer.send(mail))
+			.returns(MailingException.ErrorCode.TEMPLATE_RENDERING_FAILED, MailingException::getErrorCode)
 			.withCauseInstanceOf(IOException.class);
 	}
 
@@ -154,15 +194,17 @@ class JavaMailerTest {
 
 		doReturn(new Template("template", MimeType.valueOf("image/gif"))).when(engine).render(mail);
 
-		assertThatException().isThrownBy(() -> mailer.send(mail))
-			.isInstanceOf(MailPreparationException.class)
-			.withMessageContaining("image/gif")
-			.withNoCause();
+		assertThatExceptionOfType(MailingException.class)
+			.isThrownBy(() -> mailer.send(mail))
+			.returns(MailingException.ErrorCode.MESSAGE_PREPARATION_FAILED, MailingException::getErrorCode)
+			.withCauseInstanceOf(org.springframework.mail.MailPreparationException.class)
+			.havingCause()
+			.withMessageContaining("image/gif");
 	}
 
 	@Test
 	@DisplayName("should fail to send for invalid email address")
-	void emailAddressShouldFail() {
+	void emailAddressShouldFail() throws IOException {
 		final var mail = Mail.builder()
 			.subject("test-email-subject")
 			.template("template")
@@ -170,12 +212,14 @@ class JavaMailerTest {
 			.locale(Locale.JAPAN)
 			.build();
 
-		assertThatException().isThrownBy(() -> mailer.send(mail))
-			.isInstanceOf(MailPreparationException.class)
-			.withMessageContaining(FailureReason.DISALLOWED_UNQUOTED_CHARACTER.toString())
-			.withNoCause();
+		doReturn(Template.html("<p>test</p>")).when(engine).render(mail);
 
-		verifyNoInteractions(engine);
+		assertThatExceptionOfType(MailingException.class)
+			.isThrownBy(() -> mailer.send(mail))
+			.returns(MailingException.ErrorCode.MESSAGE_PREPARATION_FAILED, MailingException::getErrorCode)
+			.withCauseInstanceOf(org.springframework.mail.MailPreparationException.class)
+			.havingCause()
+			.withMessageContaining(FailureReason.DISALLOWED_UNQUOTED_CHARACTER.toString());
 	}
 
 }
