@@ -1,6 +1,5 @@
 package com.konfigyr.mail;
 
-import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatException;
 
 /**
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @ExtendWith(OutputCaptureExtension.class)
@@ -55,7 +54,7 @@ class MailingFailureAnalyzerTest {
 
 		assertThat(output).contains("APPLICATION FAILED TO START")
 			.doesNotContain("It seems you attempted to use the Konfigyr Mail library")
-			.contains(Preperator.class.getTypeName());
+			.contains(Preparator.class.getTypeName());
 	}
 
 	static ThrowableAssertAlternative<Exception> analyze(Class<?>... classes) {
@@ -69,27 +68,27 @@ class MailingFailureAnalyzerTest {
 
 	}
 
-	@RequiredArgsConstructor
 	@Configuration(proxyBeanMethods = false)
 	static class MissingMailerConfiguration {
 
-		private final Mailer mailer;
+		MissingMailerConfiguration(Mailer mailer) {
+		}
 
 	}
 
-	@RequiredArgsConstructor
 	@Configuration(proxyBeanMethods = false)
 	static class MissingEngineConfiguration {
 
-		private final TemplateEngine engine;
+		MissingEngineConfiguration(TemplateEngine engine) {
+		}
 
 	}
 
-	@RequiredArgsConstructor
 	@Configuration(proxyBeanMethods = false)
 	static class OtherMissingBeanConfiguration {
 
-		private final Preperator<String> preperator;
+		OtherMissingBeanConfiguration(Preparator<String> preparator) {
+		}
 
 	}
 

@@ -8,7 +8,7 @@ import java.io.IOException;
  * Interface that defines how Mail Template Engines should render the {@link Mail} before
  * it's being sent by the {@link Mailer}.
  *
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @NullMarked

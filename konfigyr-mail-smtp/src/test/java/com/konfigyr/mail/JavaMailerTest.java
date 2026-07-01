@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @SpringBootTest(classes = IntegrationTestConfiguration.class)

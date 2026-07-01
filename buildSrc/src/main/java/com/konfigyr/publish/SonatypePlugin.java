@@ -9,7 +9,7 @@ import org.jspecify.annotations.NonNull;
 import java.net.URI;
 
 /**
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 08.09.23, Fri
  **/
 public class SonatypePlugin implements Plugin<@NonNull Project> {

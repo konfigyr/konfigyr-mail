@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @param address recipient address, can't be {@literal null}
  * @param type recipient type, can't be {@literal null}
  * @see Address
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @NullMarked

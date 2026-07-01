@@ -7,7 +7,7 @@ import org.gradle.api.provider.ProviderFactory;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 04.09.23, Mon
  **/
 @NullMarked

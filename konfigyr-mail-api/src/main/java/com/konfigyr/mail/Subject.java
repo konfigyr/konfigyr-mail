@@ -16,9 +16,9 @@ import java.io.Serializable;
  * You can additionally specify arguments for your subject message that would be formatted
  * by {@link org.springframework.context.MessageSource}.
  *
- * @param value subject value
- * @param arguments formatting arguments
- * @author : Vladimir Spasic
+ * @param value subject value or message source code, can't be {@literal blank}
+ * @param arguments optional formatting arguments passed to the message source
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 public record Subject(String value, Object... arguments) implements Serializable {
@@ -26,6 +26,13 @@ public record Subject(String value, Object... arguments) implements Serializable
 	@Serial
 	private static final long serialVersionUID = -3569169986716025513L;
 
+	/**
+	 * Creates a new mail subject instance with value and formatting arguments.
+	 *
+	 * @param value subject value or message source code, can't be {@literal blank}
+	 * @param arguments optional formatting arguments passed to the message source
+	 * @throws IllegalArgumentException when subject value is blank
+	 */
 	public Subject {
 		Assert.hasText(value, "Subject value can not be blank");
 	}

@@ -34,7 +34,7 @@ import java.util.*;
  * @param replyTo reply-to address
  * @param encoding mail contents character encoding
  * @param locale language to be used by the subject and template
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @NullMarked
@@ -53,6 +53,10 @@ public record Mail(Subject subject, String template, Map<String, Object> attribu
 		return new Builder();
 	}
 
+	/**
+	 * Builder for constructing immutable {@link Mail} instances.
+	 * Use {@link Mail#builder()} to obtain a new instance.
+	 */
 	@NullUnmarked
 	public static final class Builder {
 

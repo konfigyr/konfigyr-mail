@@ -1,6 +1,5 @@
 package com.konfigyr.mail;
 
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.Context;
@@ -11,13 +10,21 @@ import org.thymeleaf.context.IContext;
  * {@link ITemplateEngine} to retrieve and process mail templates.
  *
  * @see ITemplateEngine
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
-@RequiredArgsConstructor
 public class ThymeleafTemplateEngine implements TemplateEngine {
 
 	private final ITemplateEngine thymeleaf;
+
+	/**
+	 * Creates a new {@link ThymeleafTemplateEngine} that delegates template rendering
+	 * to the given Thymeleaf {@link ITemplateEngine}.
+	 * @param thymeleaf Thymeleaf template engine to use, can't be {@literal null}
+	 */
+	public ThymeleafTemplateEngine(ITemplateEngine thymeleaf) {
+		this.thymeleaf = thymeleaf;
+	}
 
 	@NonNull
 	@Override

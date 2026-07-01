@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @param email email address, can't be {@literal blank}
  * @param name display name, can be {@literal null}
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @NullMarked
@@ -30,6 +30,13 @@ public record Address(String email, @Nullable String name) implements Serializab
 		this(email, null);
 	}
 
+	/**
+	 * Creates a new address with just an email address and display name.
+	 *
+	 * @param email email address, can't be {@literal blank}
+	 * @param name display name, can be {@literal null}
+	 * @throws IllegalArgumentException when email is blank
+	 */
 	public Address {
 		Assert.hasText(email, "Address needs to have an email address set");
 	}

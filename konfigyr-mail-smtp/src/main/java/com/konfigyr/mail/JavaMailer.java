@@ -4,8 +4,8 @@ import com.sanctionco.jmail.EmailValidationResult;
 import com.sanctionco.jmail.JMail;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.jspecify.annotations.NonNull;
 import org.springframework.mail.MailException;
@@ -18,30 +18,38 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
-@Slf4j
-@RequiredArgsConstructor
 class JavaMailer implements Mailer {
+
+	private static final Logger log = LoggerFactory.getLogger(JavaMailer.class);
 
 	private final JavaMailSender sender;
 
-	private final Preperator<@NonNull MimeMessageHelper> preperator;
+	private final Preparator<@NonNull MimeMessageHelper> preparator;
 
+	/**
+	 * Creates a {@link JavaMailer} that chains address setup, subject resolution,
+	 * template rendering, and any additional preparators in that order.
+	 * @param sender the Spring {@link JavaMailSender} used to dispatch messages
+	 * @param messageSource used to resolve and translate the mail subject
+	 * @param templateEngine used to render the mail body
+	 * @param additionalPreparators optional extra preparators appended at the end of the chain
+	 */
 	JavaMailer(JavaMailSender sender, MessageSource messageSource, TemplateEngine templateEngine,
-			Iterable<Preperator<@NonNull MimeMessageHelper>> additionalPreparators) {
+			Iterable<Preparator<@NonNull MimeMessageHelper>> additionalPreparators) {
 		this.sender = sender;
 
-		// create the MIME message preperator with following steps:
+		// create the MIME message preparator with following steps:
 		//
 		// 1) setup sender, recipients and reply to address
 		// 2) translate mail subject and add to message
 		// 3) render the template and add to message
 		// 4) append any additional preparators
-		this.preperator = addresses().and(subject(messageSource))
+		this.preparator = addresses().and(subject(messageSource))
 			.and(template(templateEngine))
-			.and(Preperator.aggregate(additionalPreparators));
+			.and(Preparator.aggregate(additionalPreparators));
 	}
 
 	@Override
@@ -54,7 +62,7 @@ class JavaMailer implements Mailer {
 			final MimeMessageHelper helper = new MimeMessageHelper(mime, mail.encoding().name());
 
 			try {
-				preperator.prepare(mail, helper);
+				preparator.prepare(mail, helper);
 			}
 			catch (MailException e) {
 				throw e;
@@ -66,7 +74,7 @@ class JavaMailer implements Mailer {
 		});
 	}
 
-	static Preperator<@NonNull MimeMessageHelper> addresses() {
+	static Preparator<@NonNull MimeMessageHelper> addresses() {
 		return (mail, helper) -> {
 			for (var recipient : mail.recipients()) {
 				if (Recipient.Type.TO == recipient.type()) {
@@ -92,7 +100,7 @@ class JavaMailer implements Mailer {
 		};
 	};
 
-	static Preperator<@NonNull MimeMessageHelper> subject(MessageSource messageSource) {
+	static Preparator<@NonNull MimeMessageHelper> subject(MessageSource messageSource) {
 		Assert.notNull(messageSource, "Mail Message Source can not be null");
 
 		return (mail, helper) -> {
@@ -118,7 +126,7 @@ class JavaMailer implements Mailer {
 		};
 	}
 
-	static Preperator<@NonNull MimeMessageHelper> template(TemplateEngine engine) {
+	static Preparator<@NonNull MimeMessageHelper> template(TemplateEngine engine) {
 		Assert.notNull(engine, "Template engine can not be null");
 
 		return (mail, helper) -> {
@@ -145,13 +153,13 @@ class JavaMailer implements Mailer {
 		};
 	}
 
-	static Preperator<@NonNull MimeMessageHelper> sender(String email, String name) {
+	static Preparator<@NonNull MimeMessageHelper> sender(String email, String name) {
 		Assert.hasText(email, "Default mail sender email address can not be null");
 
 		return sender(new Address(email, name));
 	}
 
-	static Preperator<@NonNull MimeMessageHelper> sender(Address defaultSender) {
+	static Preparator<@NonNull MimeMessageHelper> sender(Address defaultSender) {
 		Assert.notNull(defaultSender, "Default mail sender address can not be null");
 
 		return (mail, helper) -> {

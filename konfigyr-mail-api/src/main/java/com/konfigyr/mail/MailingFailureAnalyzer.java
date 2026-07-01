@@ -16,7 +16,7 @@ import java.util.Objects;
  * provide more meaningful error messages when the Spring Boot Application fails when one
  * of the required Konfigyr Mail implementations are missing.
  *
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @Order(Ordered.HIGHEST_PRECEDENCE)

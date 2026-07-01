@@ -7,9 +7,9 @@ import org.springframework.util.MimeType;
 /**
  * Immutable Mail template object that is returned by the {@link TemplateEngine}.
  *
- * @param contents the actual template content to be added the mail message
+ * @param contents the actual template content to be added the mail message, can't be {@literal blank}
  * @param contentType defines which content type should be used for this template
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @NullMarked
@@ -25,6 +25,13 @@ public record Template(String contents, MimeType contentType) {
 	 */
 	public static MimeType TEXT = MimeType.valueOf("text/plain");
 
+	/**
+	 * Creates a new Mail template instance with contents and content type.
+	 *
+	 * @param contents the actual template content to be added the mail message, can't be {@literal blank}
+	 * @param contentType defines which content type should be used for this template
+	 * @throws IllegalArgumentException when template contents is blank.
+	 */
 	public Template {
 		Assert.hasText(contents, "Template contents can not be blank");
 	}
@@ -33,7 +40,7 @@ public record Template(String contents, MimeType contentType) {
 	 * Constructs a new HTML {@link Template} instance with given contents.
 	 * @param contents template contents
 	 * @return HTML template
-	 * @throws IllegalArgumentException when contents is blank.
+	 * @throws IllegalArgumentException when template contents is blank.
 	 */
 	public static Template html(String contents) {
 		return new Template(contents, HTML);

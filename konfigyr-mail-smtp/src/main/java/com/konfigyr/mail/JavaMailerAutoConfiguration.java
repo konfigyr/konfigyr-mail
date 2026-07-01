@@ -18,7 +18,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  * Autoconfiguration class that would register the {@link Mailer} that is using Spring
  * {@link org.springframework.mail.javamail.JavaMailSender} to send {@link Mail mails}.
  *
- * @author : Vladimir Spasic
+ * @author Vladimir Spasic
  * @since : 31.10.23, Tue
  **/
 @NullMarked
@@ -28,17 +28,21 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 @AutoConfigureAfter(MailSenderAutoConfiguration.class)
 public class JavaMailerAutoConfiguration {
 
+	/** Creates a new {@link JavaMailerAutoConfiguration} instance. */
+	public JavaMailerAutoConfiguration() {
+	}
+
 	static final String SENDER_PROPERTY = "spring.mail.sender";
 
 	@Bean
 	Mailer javaMailer(JavaMailSender sender, MessageSource messageSource, TemplateEngine templateEngine,
-			ObjectProvider<Preperator<MimeMessageHelper>> preperators) {
-		return new JavaMailer(sender, messageSource, templateEngine, preperators);
+			ObjectProvider<Preparator<MimeMessageHelper>> preparators) {
+		return new JavaMailer(sender, messageSource, templateEngine, preparators);
 	}
 
 	@Bean
 	@ConditionalOnProperty(prefix = SENDER_PROPERTY, name = "email")
-	Preperator<MimeMessageHelper> defaultSenderPreperator(Environment environment) {
+	Preparator<MimeMessageHelper> defaultSenderPreparator(Environment environment) {
 		return JavaMailer.sender(environment.getProperty(SENDER_PROPERTY + ".email"),
 				environment.getProperty(SENDER_PROPERTY + ".name"));
 	}

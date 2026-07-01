@@ -4,7 +4,6 @@ plugins {
     id("java-library")
     id("com.konfigyr.sonatype") apply false
     id("com.konfigyr.deploy") apply false
-    alias(libs.plugins.lombok) apply false
 }
 
 apply(plugin = "com.konfigyr.sonatype")
@@ -26,7 +25,6 @@ subprojects {
 
     apply(plugin = "checkstyle")
     apply(plugin = "java-library")
-    apply(plugin = "io.freefair.lombok")
     apply(plugin = "com.konfigyr.deploy")
 
     java {
@@ -34,7 +32,7 @@ subprojects {
         withSourcesJar()
 
         toolchain {
-            languageVersion = JavaLanguageVersion.of(17)
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 
@@ -53,11 +51,23 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
+    apply(plugin = "jacoco")
+
     tasks.withType<JavaCompile>().configureEach {
-        options.release = 17
+        options.release = 21
     }
 
     tasks.test {
         useJUnitPlatform()
+        finalizedBy(tasks.named("jacocoTestReport"))
     }
+
+    tasks.named("jacocoTestReport", JacocoReport::class) {
+        dependsOn(tasks.test)
+        reports {
+            xml.required = true
+            html.required = true
+        }
+    }
+
 }
