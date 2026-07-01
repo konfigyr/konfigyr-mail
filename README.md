@@ -1,5 +1,10 @@
 # konfigyr-mail
 
+![CI Build](https://github.com/konfigyr/konfigyr-mail/actions/workflows/continuous-integration.yml/badge.svg)
+[![codecov](https://codecov.io/gh/konfigyr/konfigyr-mail/graph/badge.svg?token=K76STH7L4L)](https://codecov.io/gh/konfigyr/konfigyr-mail)
+[![Latest Release](https://img.shields.io/maven-central/v/com.konfigyr/konfigyr-mail-api.svg?style=flat)](https://central.sonatype.com/search?q=g%3Acom.konfigyr)
+![Java 21+](https://img.shields.io/badge/java-21+-lightgray.svg)
+
 A modular Spring Boot library for sending templated emails. It provides a clean abstraction over mail transport
 and template rendering, with autoconfigured implementations for SMTP (via Spring Mail) and Thymeleaf.
 
